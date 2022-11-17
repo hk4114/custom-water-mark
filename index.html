@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>demo</title>
+  <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+
+<div class="container">
+  <div class="card-deck mb-3">
+    <div class="card mb-4 box-shadow">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Default</h4>
+      </div>
+      <div class="card-body">
+        <p class="text-secondary text-center" style="min-height:216px;padding-top:30%;">
+          cwm.creation()
+        </p>
+        <button type="button" data-type="default"
+                class="btn btn-apply btn-lg btn-block btn-outline-primary">
+          Apply
+        </button>
+      </div>
+    </div>
+    <div class="card mb-4 box-shadow">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Demo 1</h4>
+      </div>
+      <div class="card-body">
+        <p class="text-secondary">
+          cwm.creation({ <br/>
+          txt:'13987654321', <br/>
+          width: 198, <br/>
+          height: 140, <br/>
+          x: 20, <br/>
+          y: 70, <br/>
+          fontSize: 13, <br/>
+          color: '#ff0000' <br/>
+          })
+        </p>
+        <button type="button" data-type="custom"
+                class="btn btn-apply btn-lg btn-block btn-outline-primary">
+          Apply
+        </button>
+      </div>
+    </div>
+    <div class="card mb-4 box-shadow">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Demo 2</h4>
+      </div>
+      <div class="card-body">
+        <p class="text-secondary">
+          cwm.creation({ <br/>
+          mode: 'svg', <br/>
+          watch: false, <br/>
+          fontSize: 12, <br/>
+          color: '#8a2be2' <br/>
+          font: 'sans-serif', <br/>
+          alpha: 0.2, <br/>
+          angle: -15 <br/>
+          })
+        </p>
+        <button type="button" data-type="advanced"
+                class="btn btn-apply btn-lg btn-block btn-outline-primary">
+          Apply
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="dist/custom-watermark.umd.js"></script>
+<script>
+  cwm.creation({ destroy: false,  });
+  var type = '';
+  $('.btn-apply').click(function () {
+    if ($(this).data('type') === type) return;
+    type = $(this).data('type');
+    switch (type) {
+      case 'custom':
+        cwm.creation({
+          txt: '13987654321',
+          width: 128,
+          height: 100,
+          x: 20,
+          y: 70,
+          fontSize: 13,
+          color: '#ff0000',
+          destroy: false,
+        });
+        break;
+      case 'advanced':
+        cwm.creation({
+          mode: 'svg',
+          watch: false,
+          fontSize: 12,
+          font: 'sans-serif',
+          alpha: 0.2,
+          angle: -15,
+          color: '#8a2be2',
+          destroy: false,
+        });
+        cwm.observing(() => console.log('sign'))
+        break;
+      default:
+        cwm.creation({ destroy: false });
+    }
+  });
+</script>
+</body>
+</html>
