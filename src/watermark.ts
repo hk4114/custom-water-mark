@@ -1,5 +1,5 @@
 class Watermark {
-  public txt: string
+  public txt: string[]
   public width: number
   public height: number
   public x: number
@@ -11,7 +11,7 @@ class Watermark {
   public angle: number
 
   constructor({
-    txt = `${new Date().toLocaleDateString()} Top secret`,
+    txt = [`${new Date().toLocaleDateString()} Top secret`],
     x = 0,
     y = 50,
     font = 'microsoft yahe',

@@ -27,7 +27,9 @@ class CanvasWay {
     ctx.translate(x, y);
     ctx.rotate((Math.PI / 180) * angle);
     ctx.translate(-x, -y - fontSize);
-    ctx.fillText(txt, x, y + fontSize);
+    txt.forEach((item, index) => {
+      ctx.fillText(item, x, y + fontSize * (index + 1) + 2);
+    })
     return this.canvas.toDataURL();
   }
 }

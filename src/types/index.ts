@@ -1,13 +1,8 @@
 type CallbackFunction = () => void
 type ObserverEventDisconnectFunction = () => void
 
-export enum WatermarkType {
-  CANVAS = 'canvas',
-  SVG = 'svg'
-}
-
 interface Options {
-  txt: string
+  txt: string[]
   width?: number
   height?: number
   x?: number
@@ -17,7 +12,6 @@ interface Options {
   color?: string
   alpha?: number
   angle?: number
-  mode?: WatermarkType
   watch?: boolean
   css?: CSSStyleDeclaration
   destroy?: boolean

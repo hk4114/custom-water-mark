@@ -1,18 +1,9 @@
 import Watermark from './watermark'
-import { CanvasWay, SvgWay } from './core'
+import { CanvasWay } from './core'
 import creator, { observer, disconnect } from './helpers/creator'
 import bindCSS, { assignStyle } from './helpers/bindCSS'
 import { DEFAULT_STYLE } from './constant'
-import { Options, GwmObserver, GwmObserverEvent, WatermarkType } from './types'
-
-export const wayFactory = (mode: WatermarkType, wm: Watermark) => {
-  switch (mode) {
-    case WatermarkType.CANVAS:
-      return new CanvasWay(wm)
-    default:
-      return new SvgWay(wm)
-  }
-}
+import { Options, GwmObserver, GwmObserverEvent } from './types'
 
 export const getElement = (container: HTMLElement | string): HTMLElement => {
   if (typeof container === 'string') {
@@ -31,19 +22,20 @@ export class GenerateWatermark {
   gwmDom?: HTMLElement
   observer?: GwmObserver | GwmObserverEvent
 
-  creation(opts: Options) {
+  create(opts: Options) {
     this.opts = opts
     this.opts.css = assignStyle(DEFAULT_STYLE, opts.css)
     this.cancel()
-    const { mode, watch, container = document.body } = opts
+    const {watch, container = document.body } = opts
     this.wrap = getElement(container)
+
     if (this.wrap !== document.body) {
       this.opts.css.position = 'absolute'
       bindCSS(this.wrap, Object.create({ position: 'relative' }) as CSSStyleDeclaration)
     }
     this.gwmDom = creator(this)
     const wm = new Watermark(opts)
-    const impl = wayFactory(mode || WatermarkType.SVG, wm)
+    const impl = new CanvasWay(wm)
     const result = impl.render()
     this.gwmDom.style.background = `url("${result}")`
     const first = this.wrap.firstChild
@@ -56,12 +48,12 @@ export class GenerateWatermark {
       this.observer = this.observing()
     }
     if (opts.destroy) {
-      this.creation = f => f
+      this.create = f => f
     }
   }
 
   public observing() {
-    return observer(this.gwmDom!, this.wrap!, () => this.creation(this.opts!))
+    return observer(this.gwmDom!, this.wrap!, () => this.create(this.opts!))
   }
 
   public cancel(): void {
